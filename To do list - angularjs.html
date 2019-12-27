@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="ToDoList">
+    <head>
+        <title>AngularJS sample shopping cart</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script>
+            var ToDoList = angular.module("ToDoList", []);
+            ToDoList.controller("ToDoListCTRL", function($scope){
+                $scope.ThingsToDo = [
+                    {"thing":"Shopping", "status":false},
+                    {"thing":"Dry Cleaning", "status":false},
+                    {"thing":"Carwash", "status":false},
+                    {"thing":"Cleaning The house", "status":false},
+                    {"thing":"Code", "status":true},
+                    {"thing":"Learn to code new things", "status":true},                    
+                ]
+                $scope.inserter = ""; // to satisfy if (&& $scope.inserted != undefined)
+                $scope.adder = function(){
+                    if($scope.inserted  != "" ){ 
+                        $scope.ThingsToDo.push({"thing": $scope.inserted, "status":false});
+                        $scope.inserted = "";
+                    }
+                    else{alert("You cannot add empty to do thing")}
+                }
+                $scope.Remover = function(index){
+                    $scope.ThingsToDo.splice(index,1)
+                }
+            });
+        </script>
+    </head>
+    <body ng-controller="ToDoListCTRL">
+        <div class="page-header">
+            <h1>Things To Do Today</h1>
+        </div>
+        <div class="input-group">
+            <input class="form-dontrol" ng-model="inserted"/>
+            <span class="input-group-button">
+                <button class="btn btn-success" ng-click="adder()">+</button>
+            </span>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Things to do</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in ThingsToDo">
+                    <td>{{item.thing}}</td>
+                    <td><input type="checkbox" ng-model="item.status"/></td>
+                    <td>{{item.status}}</td>
+                    <td><button class="btn btn-danger" ng-click="Remover($index)">x</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
